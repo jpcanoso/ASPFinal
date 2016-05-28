@@ -102,7 +102,7 @@ namespace _20160528_ASPFinal.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Tentativa de login inválida.");
                     return View(model);
             }
         }
@@ -176,7 +176,7 @@ namespace _20160528_ASPFinal.Controllers
 
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
 
-                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed before you can log in.";
+                    ViewBag.Message = "Verifique o seu e-mail e confirme a sua conta. A conta tem que ser verificada antes de poder efetuar login.";
 
                     return View("Info");
 
@@ -228,7 +228,7 @@ namespace _20160528_ASPFinal.Controllers
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Pode efetuar reset à password clicando <a href=\"" + callbackUrl + "\">aqui</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
