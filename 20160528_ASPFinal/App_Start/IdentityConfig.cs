@@ -23,8 +23,7 @@ namespace _20160528_ASPFinal
     {
         public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            // return Task.FromResult(0);
+            // Plugin para enviar o e-mail (SendGrid)
             await configSendGridasync(message);
         }
 
@@ -43,12 +42,12 @@ namespace _20160528_ASPFinal
                        ConfigurationManager.AppSettings["mailPassword"]
                        );
 
-            // Create a Web transport for sending email.
+            // Criar um webTransport para enviar o e-mail
             var transportWeb = new Web(credentials);
 
             try
             {
-                // Send the email.
+                // Enviar o e-mail
                 if (transportWeb != null)
                 {
                     await transportWeb.DeliverAsync(myMessage);
@@ -110,17 +109,13 @@ namespace _20160528_ASPFinal
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
-            {
-                MessageFormat = "Your security code is {0}"
-            });
+
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
             manager.EmailService = new EmailService();
-            manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
